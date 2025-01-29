@@ -2,6 +2,7 @@ const html = document.querySelector('html');
 const imagemflutuante = document.querySelector('.app__image');
 const titulo = document.querySelector('.app__title')
 
+// Seleciona botões do index.html
 const botoes = document.querySelectorAll('.app__card-button');
 const focoBt = document.querySelector('.app__card-button--foco');
 const curtoBt = document.querySelector('.app__card-button--curto');
@@ -25,7 +26,7 @@ longoBt.addEventListener('click', () => {
 function alterarContexto(contexto) {
   botoes.forEach(contexto => {
     contexto.classList.remove('active');
-  });
+});
   html.setAttribute('data-contexto', contexto);
   imagemflutuante.setAttribute('src', `./imagens/${contexto}.png`);
 
@@ -52,3 +53,22 @@ function alterarContexto(contexto) {
       break;
   }
 }
+
+// Adiciona música de fundo ao app e permite alternar entre ligar e desligar
+const ativarMusica = document.querySelector('#alternar-musica');
+const somDeMusicaAtiva = new Audio('./sons/play.wav');
+const somDePausa = new Audio('./sons/pause.mp3');
+
+const musica = new Audio('./sons/luna-rise-part-one.mp3');
+musica.loop = true;
+
+ativarMusica.addEventListener('change', () => {
+  if (musica.paused) {
+    somDeMusicaAtiva.play();
+    musica.play();
+  } else {
+    somDePausa.play();
+    musica.pause();
+  }
+})
+
