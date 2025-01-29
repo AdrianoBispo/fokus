@@ -26,7 +26,7 @@ longoBt.addEventListener('click', () => {
 function alterarContexto(contexto) {
   botoes.forEach(contexto => {
     contexto.classList.remove('active');
-});
+  });
   html.setAttribute('data-contexto', contexto);
   imagemflutuante.setAttribute('src', `./imagens/${contexto}.png`);
 
@@ -38,14 +38,14 @@ function alterarContexto(contexto) {
       `;
       break;
 
-      case 'descanso-curto':
+    case 'descanso-curto':
       titulo.innerHTML = `
         Que tal dar uma respirada?<br>
         <strong class="app__title-strong">Faça uma pausa curta!</strong>
       `;
       break;
 
-      case 'descanso-longo':
+    case 'descanso-longo':
       titulo.innerHTML = `
         Hora de voltar à superfície.<br>
         <strong class="app__title-strong">Faça uma pausa longa.</strong>
@@ -56,19 +56,50 @@ function alterarContexto(contexto) {
 
 // Adiciona música de fundo ao app e permite alternar entre ligar e desligar
 const ativarMusica = document.querySelector('#alternar-musica');
-const somDeMusicaAtiva = new Audio('./sons/play.wav');
-const somDePausa = new Audio('./sons/pause.mp3');
-
 const musica = new Audio('./sons/luna-rise-part-one.mp3');
 musica.loop = true;
 
 ativarMusica.addEventListener('change', () => {
   if (musica.paused) {
-    somDeMusicaAtiva.play();
     musica.play();
   } else {
-    somDePausa.play();
     musica.pause();
   }
 })
 
+
+const startPauseBt = document.getElementById('start-pause');
+let tempoDecorridoEmSegundos = 5; // 5 minutos inicialmente
+let intervaloId = null;
+
+const audioPlay = new Audio('./sons/play.wav');
+const audioPause = new Audio('./sons/pause.mp3');
+const audioTempoFinalizado = new Audio('./sons/beep.mp3');
+
+const contagemRegressiva = () => {
+  if (tempoDecorridoEmSegundos <= 0) {
+    audioTempoFinalizado.play(); // áudio executado quando cronômetro finalizar
+    alert('Tempo finalizado!'); // A mensagem será exibida quando o cronômetro finalizar
+    zerar();
+    return;
+  }
+  tempoDecorridoEmSegundos -= 1;
+  console.log(`Temporizador: ${tempoDecorridoEmSegundos}`);
+}
+
+startPauseBt.addEventListener('click', iniciarOuPausar);
+
+function iniciarOuPausar() {
+  if (intervaloId) {
+    audioPause.play(); // áudio executado quando cronômetro for pausado
+    zerar();
+    return;
+  }
+  audioPlay.play(); // áudio executado quando cronômetro iniciar
+  intervaloId = setInterval(contagemRegressiva, 1000);
+}
+
+function zerar() {
+  clearInterval(intervaloId);
+  intervaloId = null;
+}
