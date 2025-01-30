@@ -1,12 +1,15 @@
 const html = document.querySelector('html');
 const imagemflutuante = document.querySelector('.app__image');
 const titulo = document.querySelector('.app__title')
+const iconePlayPause = document.querySelector('.app__card-primary-butto-icon');
 
 // Seleciona botões do index.html
-const botoes = document.querySelectorAll('.app__card-button');
+const botoesContexto = document.querySelectorAll('.app__card-button');
 const focoBt = document.querySelector('.app__card-button--foco');
 const curtoBt = document.querySelector('.app__card-button--curto');
 const longoBt = document.querySelector('.app__card-button--longo');
+const startPauseBt = document.getElementById('start-pause');
+const botaoPlayPause = document.querySelector('#start-pause span'); 
 
 focoBt.addEventListener('click', () => {
   alterarContexto('foco');
@@ -24,7 +27,7 @@ longoBt.addEventListener('click', () => {
 });
 
 function alterarContexto(contexto) {
-  botoes.forEach(contexto => {
+  botoesContexto.forEach(contexto => {
     contexto.classList.remove('active');
   });
   html.setAttribute('data-contexto', contexto);
@@ -67,8 +70,6 @@ ativarMusica.addEventListener('change', () => {
   }
 })
 
-
-const startPauseBt = document.getElementById('start-pause');
 let tempoDecorridoEmSegundos = 5; // 5 minutos inicialmente
 let intervaloId = null;
 
@@ -97,9 +98,13 @@ function iniciarOuPausar() {
   }
   audioPlay.play(); // áudio executado quando cronômetro iniciar
   intervaloId = setInterval(contagemRegressiva, 1000);
+  botaoPlayPause.textContent = 'Pausar';
+  iconePlayPause.setAttribute('src', '/imagens/pause.png');
 }
 
 function zerar() {
   clearInterval(intervaloId);
   intervaloId = null;
+  botaoPlayPause.textContent = 'Iniciar';
+  iconePlayPause.setAttribute('src', '/imagens/play_arrow.png');
 }
