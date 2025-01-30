@@ -1,9 +1,10 @@
+// Variáveis dos elementos do index.html
 const html = document.querySelector('html');
 const imagemflutuante = document.querySelector('.app__image');
 const titulo = document.querySelector('.app__title')
 const iconePlayPause = document.querySelector('.app__card-primary-butto-icon');
 
-// Seleciona botões do index.html
+// Variáveis dos botões do index.html
 const botoesContexto = document.querySelectorAll('.app__card-button');
 const focoBt = document.querySelector('.app__card-button--foco');
 const curtoBt = document.querySelector('.app__card-button--curto');
@@ -11,21 +12,43 @@ const longoBt = document.querySelector('.app__card-button--longo');
 const startPauseBt = document.getElementById('start-pause');
 const botaoPlayPause = document.querySelector('#start-pause span'); 
 
+// Variáveis da música de fundo que pode ser ou não ativada
+const ativarMusica = document.querySelector('#alternar-musica');
+const musica = new Audio('./sons/luna-rise-part-one.mp3');
+musica.loop = true;
+
+// Variáveis dos audios utilizados como efeito sonoro
+const audioPlay = new Audio('./sons/play.wav');
+const audioPause = new Audio('./sons/pause.mp3');
+const audioTempoFinalizado = new Audio('./sons/beep.mp3');
+
+// Variaveis de controle do cronômetro
+const tempoNaTela = document.querySelector('#timer');
+let tempoDecorridoEmSegundos = 1500; // 1500 segundos = 25 minutos
+let intervaloId = null;
+
+// Evento de clique do botão de foco
 focoBt.addEventListener('click', () => {
+  tempoDecorridoEmSegundos = 1500; // 1500 segundos = 25 minutos
   alterarContexto('foco');
   focoBt.classList.add('active');
 });
 
+// Evento de clique do botão de descanso curto
 curtoBt.addEventListener('click', () => {
+  tempoDecorridoEmSegundos = 300; // 300 segundos = 5 minutos
   alterarContexto('descanso-curto');
   curtoBt.classList.add('active');
 });
 
+// Evento de clique do botão de descanso longo
 longoBt.addEventListener('click', () => {
+  tempoDecorridoEmSegundos = 900; // 900 segundos = 15 minutos
   alterarContexto('descanso-longo');
   longoBt.classList.add('active');
 });
 
+// Função que altera o contexto de foco para descanso curto ou descanso longo
 function alterarContexto(contexto) {
   botoesContexto.forEach(contexto => {
     contexto.classList.remove('active');
@@ -57,11 +80,7 @@ function alterarContexto(contexto) {
   }
 }
 
-// Adiciona música de fundo ao app e permite alternar entre ligar e desligar
-const ativarMusica = document.querySelector('#alternar-musica');
-const musica = new Audio('./sons/luna-rise-part-one.mp3');
-musica.loop = true;
-
+// Evento de clique do botão responsável por ativar/desativar música
 ativarMusica.addEventListener('change', () => {
   if (musica.paused) {
     musica.play();
@@ -69,13 +88,6 @@ ativarMusica.addEventListener('change', () => {
     musica.pause();
   }
 })
-
-let tempoDecorridoEmSegundos = 5; // 5 minutos inicialmente
-let intervaloId = null;
-
-const audioPlay = new Audio('./sons/play.wav');
-const audioPause = new Audio('./sons/pause.mp3');
-const audioTempoFinalizado = new Audio('./sons/beep.mp3');
 
 const contagemRegressiva = () => {
   if (tempoDecorridoEmSegundos <= 0) {
@@ -85,7 +97,7 @@ const contagemRegressiva = () => {
     return;
   }
   tempoDecorridoEmSegundos -= 1;
-  console.log(`Temporizador: ${tempoDecorridoEmSegundos}`);
+  mostrarTempo();
 }
 
 startPauseBt.addEventListener('click', iniciarOuPausar);
@@ -108,3 +120,10 @@ function zerar() {
   botaoPlayPause.textContent = 'Iniciar';
   iconePlayPause.setAttribute('src', '/imagens/play_arrow.png');
 }
+
+function mostrarTempo(){
+  const tempo = new Date(tempoDecorridoEmSegundos * 1000).toLocaleString('pt-BR', {minute: '2-digit', second: '2-digit'});
+  tempoNaTela.textContent = `${tempo}`;
+}
+
+mostrarTempo();
