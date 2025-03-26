@@ -26,29 +26,6 @@ O **Fokus** é um temporizador Pomodoro simples e eficaz, projetado para ajudar 
 - **JavaScript**: Lógica do temporizador, contagem regressiva e interatividade.
 - **Web Audio API**: Implementação de música de fundo e alertas sonoros.
 
-## Contribuições
-
-1. Faça um fork deste repositório.
-2. Crie uma branch para suas alterações:
-   
-   ```bash
-   git checkout -b minha-nova-feature
-   ```
-
-3. Commit suas mudanças:
-
-   ```bash
-   git commit -m "Adiciona nova funcionalidade"
-   ```
-
-4. Envie para o repositório remoto:
-
-   ```bash
-   git push origin minha-nova-feature
-   ```
-
-5. Abra um Pull Request para revisão.
-
 ---
 
 <p align="center"><em>Fokus é uma ferramenta simples, mas poderosa, para ajudá-lo a organizar seu tempo de forma eficiente, maximizando sua produtividade e minimizando distrações. Se você gosta do projeto, sinta-se à vontade para contribuir ou sugerir melhorias!</em></p>
